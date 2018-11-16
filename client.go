@@ -15,29 +15,28 @@ type Header struct {
 	Value string
 }
 
-// Options to setup client
-type Options struct {
+// ClientOptions to setup client
+type ClientOptions struct {
 	BaseURL     string
 	BaseHeaders []Header
 }
 
-// RequestOptions ...
-type RequestOptions struct {
-	Path        string
-	BaseHeaders []Header
+// ClientRequestOptions ...
+type ClientRequestOptions struct {
+	Path       string
+	AddHeaders []Header
 }
 
 // Client to make API requests.
 type Client struct {
-	slingBase *sling.Sling
+	SlingBase *sling.Sling
 }
 
 // newClientWithHeaders ..
-func (c Client) newClientWithHeaders(options RequestOptions) *sling.Sling {
+func (c Client) newClientWithHeaders(options ClientRequestOptions) *sling.Sling {
 
-	client := c.slingBase.New()
-
-	for _, header := range options.BaseHeaders {
+	client := c.SlingBase.New() //.Post("").Add("X-HASURA-ROLE", "")
+	for _, header := range options.AddHeaders {
 		client.Add(header.Key, header.Value)
 	}
 
@@ -55,7 +54,7 @@ type ErrorPayload struct {
 }
 
 // Get Makes a POST request
-func (c Client) Get(options RequestOptions, outPayload interface{}) error {
+func (c Client) Get(options ClientRequestOptions, outPayload interface{}) error {
 
 	var errorPayload ErrorPayload
 
@@ -82,7 +81,7 @@ func (c Client) Get(options RequestOptions, outPayload interface{}) error {
 }
 
 // NewClient returns a new Client.
-func NewClient(options Options) *Client {
+func NewClient(options *ClientOptions) *Client {
 	var httpClient *http.Client
 
 	log.Error(">>>>>>>>>>>>>>>>>>>>>>>>>> NewClient")
@@ -100,6 +99,6 @@ func NewClient(options Options) *Client {
 	}
 
 	return &Client{
-		slingBase: base,
+		SlingBase: base,
 	}
 }
