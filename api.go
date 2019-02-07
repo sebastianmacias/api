@@ -34,6 +34,11 @@ func NewAPIResErr(Msg string, Code int, Payload interface{}) *APIResponse {
 	return NewAPIRes(false, true, false, "error", Msg, Code, Payload)
 }
 
+// NewAPIResErrFromError ...
+func NewAPIResErrFromError(Err error, Code int, Payload interface{}) *APIResponse {
+	return NewAPIResErr(Err.Error(), Code, Payload)
+}
+
 // NewAPIResInfo ...
 func NewAPIResInfo(Msg string, Code int, Payload interface{}) *APIResponse {
 	return NewAPIRes(false, true, false, "info", Msg, Code, Payload)
