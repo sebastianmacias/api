@@ -17,12 +17,12 @@ type APIResponse struct {
 	Code      int         `json:"code,omitempty"`
 	Payload   interface{} `json:"payload"`
 	Timestamp int64       `json:"timestamp"`
-	Actions   []Action    `json:"actions"`
+	Actions   []*Action   `json:"actions"`
 }
 
 // AddAction ...
-func (r *APIResponse) AddAction(action Action) error {
-	r.Actions = append(r.Actions)
+func (r *APIResponse) AddAction(name, code, method, url string, required bool) error {
+	r.Actions = append(r.Actions, NewAction(name, code, method, url, required))
 	return nil
 }
 
@@ -33,6 +33,11 @@ type Action struct {
 	Method   string `json:"method,omitempty"`
 	URL      string `json:"url,omitempty"`
 	Required bool   `json:"required,omitempty"`
+}
+
+// NewAction ...
+func NewAction(name, code, method, url string, required bool) *Action {
+	return &Action{Name: name, Code: code, Method: method, URL: url, Required: required}
 }
 
 // NewAPIRes ...
