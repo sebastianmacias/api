@@ -26,12 +26,13 @@ func (r *APIResponse) AddAction(action Action) error {
 	return nil
 }
 
-// Action ...
+// Action ...Must add payloadIn and payloadOut
 type Action struct {
-	Name   string `json:"name"`
-	Code   string `json:"code,omitempty"`
-	Method string `json:"method,omitempty"`
-	URL    string `json:"url,omitempty"`
+	Name     string `json:"name"`
+	Code     string `json:"code,omitempty"`
+	Method   string `json:"method,omitempty"`
+	URL      string `json:"url,omitempty"`
+	Required bool   `json:"required,omitempty"`
 }
 
 // NewAPIRes ...
