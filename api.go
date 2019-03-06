@@ -17,6 +17,21 @@ type APIResponse struct {
 	Code      int         `json:"code,omitempty"`
 	Payload   interface{} `json:"payload"`
 	Timestamp int64       `json:"timestamp"`
+	Actions   []Action    `json:"actions"`
+}
+
+// AddAction ...
+func (r *APIResponse) AddAction(action Action) error {
+	r.Actions = append(r.Actions)
+	return nil
+}
+
+// Action ...
+type Action struct {
+	Name   string `json:"name"`
+	Code   string `json:"code,omitempty"`
+	Method string `json:"method,omitempty"`
+	URL    string `json:"url,omitempty"`
 }
 
 // NewAPIRes ...
