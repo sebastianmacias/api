@@ -21,13 +21,14 @@ type APIResponse struct {
 }
 
 // AddAction ...
-func (r *APIResponse) AddAction(name, code, method, url string, required bool) error {
-	r.Actions = append(r.Actions, NewAction(name, code, method, url, required))
+func (r *APIResponse) AddAction(actionType, name, code, method, url string, required bool) error {
+	r.Actions = append(r.Actions, NewAction(actionType, name, code, method, url, required))
 	return nil
 }
 
 // Action ...Must add payloadIn and payloadOut
 type Action struct {
+	Type     string `json:"type,omitempty"`
 	Name     string `json:"name"`
 	Code     string `json:"code,omitempty"`
 	Method   string `json:"method,omitempty"`
@@ -36,8 +37,8 @@ type Action struct {
 }
 
 // NewAction ...
-func NewAction(name, code, method, url string, required bool) *Action {
-	return &Action{Name: name, Code: code, Method: method, URL: url, Required: required}
+func NewAction(actionType, name, code, method, url string, required bool) *Action {
+	return &Action{Type: actionType, Name: name, Code: code, Method: method, URL: url, Required: required}
 }
 
 // NewAPIRes ...
