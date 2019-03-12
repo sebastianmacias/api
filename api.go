@@ -7,8 +7,8 @@ import (
 	"time"
 )
 
-// APIResponse ...
-type APIResponse struct {
+// Response ...
+type Response struct {
 	Success   bool        `json:"success"`
 	Error     bool        `json:"error"`
 	Warning   bool        `json:"warning"`
@@ -21,7 +21,7 @@ type APIResponse struct {
 }
 
 // AddAction ...
-func (r *APIResponse) AddAction(actionType, name, code, method, url string, required bool) error {
+func (r *Response) AddAction(actionType, name, code, method, url string, required bool) error {
 	r.Actions = append(r.Actions, NewAction(actionType, name, code, method, url, required))
 	return nil
 }
@@ -42,32 +42,32 @@ func NewAction(actionType, name, code, method, url string, required bool) *Actio
 }
 
 // NewAPIRes ...
-func NewAPIRes(Success, Error, Warning bool, Type, Msg string, Code int, Payload interface{}) *APIResponse {
-	return &APIResponse{Success: Success, Error: Error, Warning: Warning, Type: Type, Msg: Msg, Code: Code, Payload: Payload, Timestamp: time.Now().Unix()}
+func NewAPIRes(Success, Error, Warning bool, Type, Msg string, Code int, Payload interface{}) *Response {
+	return &Response{Success: Success, Error: Error, Warning: Warning, Type: Type, Msg: Msg, Code: Code, Payload: Payload, Timestamp: time.Now().Unix()}
 }
 
 // NewAPIResOk ...
-func NewAPIResOk(Msg string, Code int, Payload interface{}) *APIResponse {
+func NewAPIResOk(Msg string, Code int, Payload interface{}) *Response {
 	return NewAPIRes(true, false, false, "success", Msg, Code, Payload)
 }
 
 // NewAPIResErr ...
-func NewAPIResErr(Msg string, Code int, Payload interface{}) *APIResponse {
+func NewAPIResErr(Msg string, Code int, Payload interface{}) *Response {
 	return NewAPIRes(false, true, false, "error", Msg, Code, Payload)
 }
 
 // NewAPIResErrFromError ...
-func NewAPIResErrFromError(Err error, Code int, Payload interface{}) *APIResponse {
+func NewAPIResErrFromError(Err error, Code int, Payload interface{}) *Response {
 	return NewAPIResErr(Err.Error(), Code, Payload)
 }
 
 // NewAPIResInfo ...
-func NewAPIResInfo(Msg string, Code int, Payload interface{}) *APIResponse {
+func NewAPIResInfo(Msg string, Code int, Payload interface{}) *Response {
 	return NewAPIRes(false, true, false, "info", Msg, Code, Payload)
 }
 
 // NewAPIResWarn ...
-func NewAPIResWarn(Msg string, Code int, Payload interface{}) *APIResponse {
+func NewAPIResWarn(Msg string, Code int, Payload interface{}) *Response {
 	return NewAPIRes(false, false, true, "warning", Msg, Code, Payload)
 }
 
