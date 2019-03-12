@@ -33,6 +33,7 @@ type Action struct {
 	Code     string `json:"code,omitempty"`
 	Method   string `json:"method,omitempty"`
 	URL      string `json:"url,omitempty"`
+	Meta     string `json:"meta,omitempty"`
 	Required bool   `json:"required,omitempty"`
 }
 
