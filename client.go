@@ -54,11 +54,11 @@ type ErrorPayload struct {
 }
 
 // Get Makes a POST request
-func (c Client) Get(options ClientRequestOptions, outPayload interface{}) error {
+func (c Client) Get(options ClientRequestOptions, output interface{}) error {
 
 	var errorPayload ErrorPayload
 
-	_, err := c.newClientWithHeaders(options).Get(options.Path).Receive(&outPayload, &errorPayload)
+	_, err := c.newClientWithHeaders(options).Get(options.Path).Receive(&output, &errorPayload)
 	if err != nil {
 
 		log.WithFields(log.Fields{

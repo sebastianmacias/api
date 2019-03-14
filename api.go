@@ -26,7 +26,7 @@ func (r *Response) AddAction(actionType, name, code, method, url string, require
 	return nil
 }
 
-// Action ...Must add payloadIn and payloadOut
+// Action ...Must add input and output
 type Action struct {
 	Type     string `json:"type,omitempty"`
 	Name     string `json:"name"`
@@ -75,57 +75,57 @@ func NewAPIResWarn(Msg string, Code int, Payload interface{}) *Response {
 // Return helpers
 
 // returnAPIRes ...
-func returnAPIRes(w http.ResponseWriter, statusCode int, outPayload []byte) {
+func returnAPIRes(w http.ResponseWriter, statusCode int, output []byte) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
-	w.Write(outPayload)
+	w.Write(output)
 	return
 }
 
 // ReturnAPIResErr ...
 func returnAPIResErr(w http.ResponseWriter, Msg string, Code int) {
-	outPayload, _ := Marshal(NewAPIResErr(Msg, Code, nil))
-	returnAPIRes(w, http.StatusBadGateway, outPayload)
+	output, _ := Marshal(NewAPIResErr(Msg, Code, nil))
+	returnAPIRes(w, http.StatusBadGateway, output)
 	return
 }
 
 // ReturnAPIResOk ...
 func ReturnAPIResOk(w http.ResponseWriter, Msg string, Code int, Payload interface{}) {
-	if outPayload, err := Marshal(NewAPIResOk(Msg, Code, Payload)); err != nil {
+	if output, err := Marshal(NewAPIResOk(Msg, Code, Payload)); err != nil {
 		returnAPIResErr(w, err.Error(), 0)
 	} else {
-		returnAPIRes(w, http.StatusOK, outPayload)
+		returnAPIRes(w, http.StatusOK, output)
 	}
 	return
 }
 
 // ReturnAPIResErr ...
 func ReturnAPIResErr(w http.ResponseWriter, Msg string, Code int, Payload interface{}) {
-	if outPayload, err := Marshal(NewAPIResErr(Msg, Code, Payload)); err != nil {
+	if output, err := Marshal(NewAPIResErr(Msg, Code, Payload)); err != nil {
 		returnAPIResErr(w, err.Error(), 0)
 	} else {
-		returnAPIRes(w, http.StatusOK, outPayload)
+		returnAPIRes(w, http.StatusOK, output)
 	}
 	return
 }
 
 // ReturnAPIResInfo ...
 func ReturnAPIResInfo(w http.ResponseWriter, Msg string, Code int, Payload interface{}) {
-	if outPayload, err := Marshal(NewAPIResInfo(Msg, Code, Payload)); err != nil {
+	if output, err := Marshal(NewAPIResInfo(Msg, Code, Payload)); err != nil {
 		returnAPIResErr(w, err.Error(), 0)
 	} else {
-		returnAPIRes(w, http.StatusOK, outPayload)
+		returnAPIRes(w, http.StatusOK, output)
 	}
 	return
 }
 
 // ReturnAPIResWarn ...
 func ReturnAPIResWarn(w http.ResponseWriter, Msg string, Code int, Payload interface{}) {
-	if outPayload, err := Marshal(NewAPIResWarn(Msg, Code, Payload)); err != nil {
+	if output, err := Marshal(NewAPIResWarn(Msg, Code, Payload)); err != nil {
 		returnAPIResErr(w, err.Error(), 0)
 	} else {
-		returnAPIRes(w, http.StatusOK, outPayload)
+		returnAPIRes(w, http.StatusOK, output)
 	}
 	return
 }
@@ -133,10 +133,10 @@ func ReturnAPIResWarn(w http.ResponseWriter, Msg string, Code int, Payload inter
 //General utility functions
 
 // Marshal converts interface to JSON
-func Marshal(inPayload interface{}) ([]byte, error) {
-	outPayload, err := json.Marshal(inPayload)
+func Marshal(input interface{}) ([]byte, error) {
+	output, err := json.Marshal(input)
 	if err != nil {
 		return nil, errors.New("Error marshaling JSON")
 	}
-	return outPayload, nil
+	return output, nil
 }
